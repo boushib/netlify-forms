@@ -1,0 +1,21 @@
+window.onload = function () {
+  document
+    .getElementById("form")
+    .addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const res = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encode({
+          "form-name": event.target.getAttribute("name"),
+          ...name,
+        }),
+      });
+      console.log("RES: ", res);
+    });
+};
+function encode(data) {
+  return Object.keys(data)
+    .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+    .join("&");
+}
