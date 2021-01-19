@@ -1,21 +1,14 @@
-window.onload = function () {
-  document
-    .getElementById("form")
-    .addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const res = await fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encode({
-          "form-name": event.target.getAttribute("name"),
-          ...name,
-        }),
-      });
-      console.log("RES: ", res);
-    });
+window.onload = () => {
+  const form = document.getElementById("form");
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const formData = new FormData(form);
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(formData).toString(),
+    })
+      .then(() => console.log("Form successfully submitted"))
+      .catch((error) => alert(error));
+  });
 };
-function encode(data) {
-  return Object.keys(data)
-    .map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-    .join("&");
-}
